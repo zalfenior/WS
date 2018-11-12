@@ -1,9 +1,10 @@
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GraphNode{
   public int id;
   public String name;
-  public ConcurrentLinkedQueue<Integer> linkTo = new ConcurrentLinkedQueue<Integer>();
+  public ConcurrentLinkedQueue<Edge> linkTo = new ConcurrentLinkedQueue<Edge>();
 
   
   public GraphNode(int init) {
@@ -15,7 +16,16 @@ public class GraphNode{
   public String getName() { return name; }
   public void setName(String neo) { name = neo; }
   
-  public ConcurrentLinkedQueue<Integer> getQueue() { return linkTo; }
-  public void setQueue( ConcurrentLinkedQueue<Integer> queue ) { linkTo = queue; }
+  public ConcurrentLinkedQueue<Edge> getQueue() { return linkTo; }
+  public void setQueue( ConcurrentLinkedQueue<Edge> queue ) { linkTo = queue; }
+  
+  public void PrintNode() {
+	  System.out.printf("<\n%d\n", id);
+	  Iterator<Edge> iter = this.getQueue().iterator();
+	  while(iter.hasNext()) {
+		  System.out.printf("\n%d -> %d", id, iter.next().getTarget());
+	  }
+	  System.out.println(">");
+  }
     
 }
