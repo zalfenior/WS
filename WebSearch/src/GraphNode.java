@@ -4,6 +4,8 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 public class GraphNode{
   public int id;
   public String name;
+  public int degree;
+  public double pageRank;
   public ConcurrentLinkedQueue<Edge> linkTo = new ConcurrentLinkedQueue<Edge>();
 
   
@@ -13,6 +15,9 @@ public class GraphNode{
   public int getID() { return id; }
   public void setID(int res) { id = res; }
 
+  public int getDegree() { return degree; }
+  public void setDegree(int ent) { degree = ent; }
+  
   public String getName() { return name; }
   public void setName(String neo) { name = neo; }
   
