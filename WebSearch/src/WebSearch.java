@@ -2,12 +2,15 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class WebSearch {
 	
 	private static File toMap;
 	private static int iter = 0;
 	private static float scale = 0;
+	private int directed;
+	public ConcurrentHashMap<Integer, GraphNode> node;
 	
 	public static void main(String[] args) {
 		
