@@ -22,6 +22,9 @@ public class WebSearch {
 		iter = Integer.parseInt(args[1]);
 		scale = Float.valueOf(args[2]);
 		
+		PageRank r = new PageRank();
+		r.testMap();
+		
 		try (BufferedReader read = new BufferedReader(new FileReader(toMap))) {
 		    while ((line = read.readLine()) != null) {
 		    	
