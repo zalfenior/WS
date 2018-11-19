@@ -2,10 +2,11 @@ import java.util.Iterator;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 public class GraphNode{
-  public int id;
-  public String name;
-  public int degree;
-  public double pageRank;
+  private int id;
+  private String name = "N/A";
+  private int degree = 0;
+  private double pageRank;
+  private String printer = "";
   public ConcurrentLinkedQueue<Edge> linkTo = new ConcurrentLinkedQueue<Edge>();
 
   
@@ -20,6 +21,13 @@ public class GraphNode{
   
   public String getName() { return name; }
   public void setName(String neo) { name = neo; }
+  
+  public String getPrint() { return printer; }
+  public void setPrint(String neo) { printer = neo; }
+  public void addPrint(String x) { printer += x + "\n"; } //convert float value to string before call or in method
+  
+  public double getpageRank() { return pageRank; }
+  public void setpageRank(double neo) { pageRank = neo; }
   
   public ConcurrentLinkedQueue<Edge> getQueue() { return linkTo; }
   public void setQueue( ConcurrentLinkedQueue<Edge> queue ) { linkTo = queue; }
