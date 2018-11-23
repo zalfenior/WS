@@ -10,5 +10,5 @@ public class Edge {
 	public int getTarget() { return target; }
 	public void setTarget(int a) { target = a; }
 	public double getWeight() { return weight; }
-	public void setWeght(int b) { weight = b; }
+	public void setWeight(double b) { weight = b; }
 }
