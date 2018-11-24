@@ -45,7 +45,7 @@ public class WebSearch {
 		    			} else if (line.contains("degree")) {
 		    				deg = Integer.parseInt(lineRead[2]);
 		    			} else if (line.contains("]")){
-		    				GraphNode a = new GraphNode(tempInt);
+		    				GraphNode a = new GraphNode(tempInt, iter);
 		    				a.setDegree(deg);
 		    				a.setName(label);
 			    			//System.out.printf("Id of test node is %d\nDegree is %d\nName is %s\n", a.getID(), a.getDegree(), a.getName());

@@ -5,25 +5,28 @@ public class PageRank {
 	ConcurrentHashMap<Integer, GraphNode> graph;
 	
 	double dampening;
+	int iter;
 	double [][] pageFlow;
 	
 	//create the pageFlow matrix
 	//every column (N^T) is the division of the page rank of a node
-	void setMatrix(){
+	public void setMatrix(){
 		//create nxn matrix
 		pageFlow = new double[graph.size()][graph.size()];
 		
 		//set the value of every page rank division on outgoing links
 		for(Entry<Integer, GraphNode> e : graph.entrySet()) {
 			GraphNode n = e.getValue();
-			n.setpageRank( 1d / (double)graph.size());
+			n.setpageRank(0, 1d / (double)graph.size());
 			for(Edge edge : n.linkTo) {
 				pageFlow[edge.getTarget()][n.getID()] = 1d / (double)n.linkTo.size();
 			}
 		}
 	}
 	
-	void dampenMatrix() {
+	public void setIter(int i) { iter = i; }
+	
+	public void dampenMatrix() {
 		for(int i = 0; i < pageFlow.length; i++) {
 			for(int j = 0; j < pageFlow[i].length; j++) {
 				double pr = pageFlow[i][j];
@@ -34,12 +37,34 @@ public class PageRank {
 		}
 	}
 	
-	void printMatrix() {
+	public void printMatrix() {
 		for(int i = 0; i < pageFlow.length; i++) {
 			for(int j = 0; j < pageFlow[i].length; j++) {
 				System.out.printf("%6.5f ", pageFlow[i][j]);
 			}
 			System.out.println();
+		}
+	}
+	
+	public void calcPR() {
+		double nPR;
+		GraphNode receiver;
+		GraphNode sender;
+		
+		for(int i = 1; i <= iter; i++) { //number of page rank iterations
+			for(int j = 0; j < graph.size(); j++) { //outer array index, the node we are on
+				receiver = graph.get(j);
+				nPR = 0; //new PageRank, starts at 0
+				
+				for(int k = 0; k < graph.size(); k++) { //incoming links to node
+					sender = graph.get(k); //get the node pointing to j
+					nPR += sender.getpageRank(i - 1) * pageFlow[j][k]; //set new PR to old pr * pageflow
+				}
+				
+				//set the new pagerank into the node and the node back into the graph
+				receiver.setpageRank(i, nPR);
+				graph.put(receiver.getID(), receiver);
+			}
 		}
 	}
 	
@@ -68,8 +93,4 @@ public class PageRank {
 		dampenMatrix();
 		printMatrix();
 	}
-	//initial page rank is 1/ N where N is the number of graph nodes
-	//dampening factor (decimal value = double) is SN + (1-S)/N where N is the PageRank flow matrix
-	//Once pagerank flow matrix is done, matrix multiply initial page rank (r0) with matrix
-	//this creates r1, r1 * prfm = r2 so on and so forth.
 }
