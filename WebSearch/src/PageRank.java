@@ -8,6 +8,10 @@ public class PageRank {
 	int iter;
 	double [][] pageFlow;
 	
+	public PageRank(ConcurrentHashMap<Integer, GraphNode> chm) {
+		graph = chm;
+	}
+	
 	//create the pageFlow matrix
 	//every column (N^T) is the division of the page rank of a node
 	public void setMatrix(){
@@ -25,6 +29,7 @@ public class PageRank {
 	}
 	
 	public void setIter(int i) { iter = i; }
+	public void setDamp(double d) { dampening = d; }
 	
 	public void dampenMatrix() {
 		for(int i = 0; i < pageFlow.length; i++) {

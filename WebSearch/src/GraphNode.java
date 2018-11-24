@@ -12,7 +12,7 @@ public class GraphNode{
   
   public GraphNode(int init, int iter) {
     id = init;
-    pageRank = new double[iter];
+    pageRank = new double[iter + 1];
   }
   
   public int getID() { return id; }
