@@ -19,6 +19,7 @@ public class WebSearch {
 	public static void main(String[] args) {
 		
 		String line;
+		PageRank pr = new PageRank(node);
 		
 		if(args.length != 3) {
 			System.out.println("ERROR: method to run: /java WebSearch <GML File name> <Int n: number of iterations> <Float z: Scaledown> ");
@@ -28,9 +29,6 @@ public class WebSearch {
 		toMap = new File(args[0]);
 		iter = Integer.parseInt(args[1]);
 		scale = Float.valueOf(args[2]);
-		
-		PageRank r = new PageRank();
-		r.testMap();
 		
 		try (BufferedReader read = new BufferedReader(new FileReader(toMap))) {
 		    while ((line = read.readLine()) != null) {
@@ -67,6 +65,7 @@ public class WebSearch {
 		    				Edge tempEdge = new Edge(target);
 		    				tempEdge.setWeight(weight);
 		    				node.get(source).getQueue().add(tempEdge);
+		    				break;
 		    			}
 		    		}
 		    	} else if (line.contains("directed")) {
@@ -82,5 +81,23 @@ public class WebSearch {
 			e.printStackTrace();
 		}
 		
+		pr.setMatrix();
+		pr.setIter(iter);
+		pr.setDamp(scale);
+		pr.dampenMatrix();
+		pr.printMatrix();
+		pr.calcPR();
+		showPageRank();
+	}
+	
+	static public void showPageRank() {
+		
+		for(int n = 0; n < node.size(); n++) {
+			System.out.printf("Node: %d\n    ", node.get(n).getID());
+			for(int i = iter; i >= 0; i--) {
+				System.out.printf("%06.5f ", node.get(n).getpageRank(i));
+			}
+			System.out.printf("\n");
+		}
 	}
 }
