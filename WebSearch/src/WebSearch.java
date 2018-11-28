@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class WebSearch {
@@ -85,12 +86,11 @@ public class WebSearch {
 		pr.setIter(iter);
 		pr.setDamp(scale);
 		pr.dampenMatrix();
-		pr.printMatrix();
 		pr.calcPR();
 		showPageRank();
 	}
 	
-	static public void showPageRank() {
+	static public void showNodes() {
 		
 		for(int n = 0; n < node.size(); n++) {
 			System.out.printf("Node: %d\n    ", node.get(n).getID());
@@ -98,6 +98,55 @@ public class WebSearch {
 				System.out.printf("%06.5f ", node.get(n).getpageRank(i));
 			}
 			System.out.printf("\n");
+		}
+	}
+	
+	static public void showPageRank() {
+		int [][] sort = new int[iter + 1][node.size()];
+		String out = "";
+		
+		//assign values of -1 to nodes
+		for( int [] arr : sort ) {
+			Arrays.fill(arr, -1);
+		}
+		
+		for(int i = 1; i <= iter; i++) {
+			//go through every element and create sorted list
+			for(int n = 0; n < node.size(); n++) {
+				int key = node.get(n).getID();
+				double val = node.get(n).getpageRank(i);
+				
+				int j = 0;
+				while( j < node.size() ) {
+					if( sort[i][j] == -1 ) {
+						sort[i][j] = key;
+						break;
+					}
+					else if( val < node.get(sort[i][j]).getpageRank(i) ) {
+						j++;
+					}
+					else {
+						int tmp = sort[i][j];
+						sort[i][j] = key;
+						key = tmp;
+						val = node.get(key).getpageRank(i);
+						j++;
+					}
+				}
+			}
+		}
+		
+		//print output
+		for(int i = 1; i <= iter; i++) {
+			out += "Iteration: " + i + "            ";
+		}
+		
+		System.out.println(out);
+		for(int n = 0; n < node.size(); n++) {
+			for(int i = 1; i <= iter; i++) {
+				System.out.printf("Node: %4d %010.8f   ", sort[i][n], node.get(sort[i][n]).getpageRank(i) );
+			}
+			System.out.println();
 		}
 	}
 }
