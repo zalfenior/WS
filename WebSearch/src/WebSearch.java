@@ -27,9 +27,21 @@ public class WebSearch {
 			System.exit(0);
 		}
 		
+		if(!args[0].contains(".gml")) {
+			System.out.println("Error: File type must be GML");
+			System.exit(0);
+		}
+		
 		toMap = new File(args[0]);
-		iter = Integer.parseInt(args[1]);
-		scale = Float.valueOf(args[2]);
+		try {
+			iter = Integer.parseInt(args[1]);
+			scale = Float.valueOf(args[2]);
+		}
+		catch(NumberFormatException e){
+			System.out.println("One or both numbers are not formatted properly.");
+			System.out.println("Format: File.gml integer float>x.x");
+			System.exit(0);
+		}
 		
 		try (BufferedReader read = new BufferedReader(new FileReader(toMap))) {
 		    while ((line = read.readLine()) != null) {
