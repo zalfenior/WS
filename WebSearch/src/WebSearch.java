@@ -114,7 +114,7 @@ public class WebSearch {
 	}
 	
 	static public void showPageRank() {
-		int [][] sort = new int[iter + 1][node.size()];
+		int [][] sort = new int[iter + 1][node.size() + 1];
 		String out = "";
 		
 		//assign values of -1 to nodes
@@ -124,7 +124,8 @@ public class WebSearch {
 		
 		for(int i = 1; i <= iter; i++) {
 			//go through every element and create sorted list
-			for(int n = 0; n < node.size(); n++) {
+			for(int n = 0; n <= node.size(); n++) {
+				if( node.get(n) == null ) { continue; }
 				int key = node.get(n).getID();
 				double val = node.get(n).getpageRank(i);
 				
@@ -154,8 +155,9 @@ public class WebSearch {
 		}
 		
 		System.out.println(out);
-		for(int n = 0; n < node.size(); n++) {
+		for(int n = 0; n <= node.size(); n++) {
 			for(int i = 1; i <= iter; i++) {
+				if( node.get(sort[i][n]) == null) { continue; }
 				System.out.printf("Node: %4d %010.8f   ", sort[i][n], node.get(sort[i][n]).getpageRank(i) );
 			}
 			System.out.println();
