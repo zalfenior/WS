@@ -42,6 +42,14 @@ public class WebSearch {
 			System.out.println("Format: File.gml integer float>x.x");
 			System.exit(0);
 		}
+		if(scale >= 1.0 || scale <= 0.0) {
+			System.out.println("Scaling factor must be between 0.0 and 1.0, try 0.7-0.85");
+			System.exit(0);
+		}
+		if(iter < 1) {
+			System.out.println("Iterations must be larger than 0");
+			System.exit(0);
+		}
 		
 		try (BufferedReader read = new BufferedReader(new FileReader(toMap))) {
 		    while ((line = read.readLine()) != null) {
