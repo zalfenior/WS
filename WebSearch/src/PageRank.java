@@ -16,7 +16,7 @@ public class PageRank {
 	//every column (N^T) is the division of the page rank of a node
 	public void setMatrix(){
 		//create nxn matrix
-		pageFlow = new double[graph.size()][graph.size()];
+		pageFlow = new double[graph.size() + 1][graph.size() + 1];
 		
 		//set the value of every page rank division on outgoing links
 		for(Entry<Integer, GraphNode> e : graph.entrySet()) {
@@ -59,10 +59,12 @@ public class PageRank {
 		for(int i = 1; i <= iter; i++) { //number of page rank iterations
 			for(int j = 0; j < graph.size(); j++) { //outer array index, the node we are on
 				receiver = graph.get(j);
+				if(receiver == null) { continue; }
 				nPR = 0; //new PageRank, starts at 0
 				
 				for(int k = 0; k < graph.size(); k++) { //incoming links to node
 					sender = graph.get(k); //get the node pointing to j
+					if(sender == null) { continue; }
 					nPR += sender.getpageRank(i - 1) * pageFlow[j][k]; //set new PR to old pr * pageflow
 				}
 				
